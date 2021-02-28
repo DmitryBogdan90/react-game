@@ -1,38 +1,98 @@
-import React, { useEffect, useState } from 'react';
+import React, { Component } from 'react';
 
 import './Main.scss';
 import { Button } from '@material-ui/core';
 
-const Main = () => {
-  const defaultChoices = ['Rock', 'Scissors', 'Paper'];
-  const extendedChoices = ['Rock', 'Scissors', 'Paper', 'Lizard', 'Spock'];
+const defaultChoices = ['Rock', 'Scissors', 'Paper'];
+const extendedChoices = ['Rock', 'Scissors', 'Paper', 'Lizard', 'Spock'];
 
-  const [playerChoice, setPlayerChoice] = useState('default');
-  const [browserChoice, setBrowserChoice] = useState('browserChoice');
+class Main extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      browserChoice: '',
+      playerChoice: '',
+      winner: '',
+      score: 0,
+      round: 0,
+    };
+  }
 
-  useEffect(() => {
-    setBrowserChoice(defaultChoices[Math.floor(Math.random() * 3)]);
-  }, [playerChoice]);
+  getWinner(browserChoice, playerChoice) {
+    let winner;
+    const [rock, scissors, paper] = defaultChoices;
+    switch (playerChoice) {
+      case rock:
+        browserChoice === scissors
+          ? (winner = 'player')
+          : browserChoice === rock
+          ? (winner = 'none')
+          : (winner = 'browser');
+        break;
+      case scissors:
+        browserChoice === paper
+          ? (winner = 'player')
+          : browserChoice === scissors
+          ? (winner = 'none')
+          : (winner = 'browser');
+        break;
+      case paper:
+        browserChoice === rock
+          ? (winner = 'player')
+          : browserChoice === paper
+          ? (winner = 'none')
+          : (winner = 'browser');
+        break;
+      default:
+        console.log('default switch');
+    }
+    console.log('inside getWinner', this.state);
+    return winner;
+  }
 
-  const handleClick = (choice) => {
-    console.log('choice');
-    setPlayerChoice('');
-    setPlayerChoice(choice);
-  };
+  getBrowserChoice() {
+    return defaultChoices[Math.floor(Math.random() * 3)];
+  }
 
-  return (
-    <main>
-      <div>Browser choice: {browserChoice}</div>
-      <div>Player choice: {playerChoice}</div>
-      {defaultChoices.map((choice, index) => {
-        return (
-          <Button key={index} onClick={() => handleClick(choice)}>
-            {choice}
-          </Button>
-        );
-      })}
-    </main>
-  );
-};
+  handleClick(choice) {
+    const browserChoice = this.getBrowserChoice();
+    const playerChoice = choice;
+    const winner = this.getWinner(browserChoice, playerChoice);
+
+    this.setState({
+      browserChoice,
+      playerChoice,
+      winner,
+      score:
+        winner === 'player'
+          ? this.state.score + 1
+          : winner === 'none'
+          ? this.state.score
+          : this.state.score - 1,
+      round: this.state.round + 1,
+    });
+  }
+
+  render() {
+    const { browserChoice, playerChoice, winner, score, round } = this.state;
+
+    return (
+      <main>
+        <div>Round: {round}</div>
+        <div>Score: {score}</div>
+        <div>WINNER: {winner}</div>
+        <div>Browser choice: {browserChoice}</div>
+        <div>Player choice: {playerChoice}</div>
+        {defaultChoices.map((choice, index) => {
+          return (
+            <Button key={index} onClick={() => this.handleClick(choice)}>
+              {choice}
+            </Button>
+          );
+        })}
+      </main>
+    );
+  }
+}
 
 export default Main;
