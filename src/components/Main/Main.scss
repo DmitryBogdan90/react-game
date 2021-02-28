@@ -7,7 +7,4 @@ main {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  &:nth-child(n) {
-    font-size: 24px;
-  }
 }

@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import Mousetrap from 'mousetrap';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import { Button } from '@material-ui/core';
 
 import './Main.scss';
-import { Button } from '@material-ui/core';
 import AudioDraw from '../../assets/draw.ogg';
 import AudioWin from '../../assets/win.ogg';
 import AudioLose from '../../assets/lose.ogg';
 import AudioModal from '../../assets/modal.ogg';
 import AudioTheme from '../../assets/theme.ogg';
+import './Modal.scss';
 
 const defaultChoices = ['Rock', 'Scissors', 'Paper'];
 const extendedChoices = ['Rock', 'Scissors', 'Paper', 'Lizard', 'Spock'];
@@ -22,7 +26,12 @@ class Main extends Component {
       score: 0,
       round: 0,
       isThemePlay: true,
+      isSettingsView: false,
+      isHighScoreView: false,
     };
+
+    this.closeHighScore = this.closeHighScore.bind(this);
+    this.closeSettings = this.closeSettings.bind(this);
   }
 
   componentDidMount() {
@@ -127,11 +136,21 @@ class Main extends Component {
   viewHighScore() {
     console.log('click viewHighScore');
     this.playAudioEffect(AudioModal);
+    this.setState({ isHighScoreView: true });
+  }
+
+  closeHighScore() {
+    this.setState({ isHighScoreView: false });
   }
 
   viewSettings() {
     console.log('click viewSettings');
     this.playAudioEffect(AudioModal);
+    this.setState({ isSettingsView: true });
+  }
+
+  closeSettings() {
+    this.setState({ isSettingsView: false });
   }
 
   playAudioEffect(audioSource) {
@@ -166,6 +185,7 @@ class Main extends Component {
       round,
       isThemePlay,
       isHighScoreView,
+      isSettingsView,
     } = this.state;
 
     return (
@@ -199,6 +219,46 @@ class Main extends Component {
             })}
           </ul>
         </div>
+
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className="modal"
+          open={isHighScoreView}
+          onClose={this.closeHighScore}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={isHighScoreView}>
+            <div className="paper">
+              <h2 id="transition-modal-title">isHighScoreView</h2>
+              <p id="transition-modal-description">react-transition-group animates me.</p>
+            </div>
+          </Fade>
+        </Modal>
+
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className="modal"
+          open={isSettingsView}
+          onClose={this.closeSettings}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={isSettingsView}>
+            <div className="paper">
+              <h2 id="transition-modal-title">isSettingsView</h2>
+              <p id="transition-modal-description">react-transition-group animates me.</p>
+            </div>
+          </Fade>
+        </Modal>
       </main>
     );
   }
