@@ -3,6 +3,11 @@ import Mousetrap from 'mousetrap';
 
 import './Main.scss';
 import { Button } from '@material-ui/core';
+import AudioDraw from '../../assets/draw.ogg';
+import AudioWin from '../../assets/win.ogg';
+import AudioLose from '../../assets/lose.ogg';
+import AudioModal from '../../assets/modal.ogg';
+import AudioTheme from '../../assets/theme.ogg';
 
 const defaultChoices = ['Rock', 'Scissors', 'Paper'];
 const extendedChoices = ['Rock', 'Scissors', 'Paper', 'Lizard', 'Spock'];
@@ -16,6 +21,7 @@ class Main extends Component {
       winner: '',
       score: 0,
       round: 0,
+      isThemePlay: true,
     };
   }
 
@@ -30,6 +36,10 @@ class Main extends Component {
     Mousetrap.bind(['shift+n'], () => this.newGame());
     Mousetrap.bind(['shift+h'], () => this.viewHighScore());
     Mousetrap.bind(['shift+s'], () => this.viewSettings());
+
+    this.setState({ audioModal: new Audio(AudioModal) });
+    this.stopTheme();
+    this.setState({ audioTheme: new Audio(AudioTheme) });
   }
 
   componentWillUnmount() {
@@ -37,10 +47,12 @@ class Main extends Component {
     Mousetrap.unbind(['shift+n'], () => this.newGame());
     Mousetrap.unbind(['shift+h'], () => this.viewHighScore());
     Mousetrap.unbind(['shift+s'], () => this.viewSettings());
+
+    this.stopTheme();
   }
 
   componentDidUpdate() {
-    this.saveGame();
+    localStorage.setItem('choices-game', JSON.stringify(this.state));
   }
 
   getWinner(browserChoice, playerChoice) {
@@ -68,10 +80,7 @@ class Main extends Component {
           ? (winner = 'none')
           : (winner = 'browser');
         break;
-      default:
-        console.log('default switch');
     }
-    console.log('inside getWinner', this.state);
     return winner;
   }
 
@@ -84,6 +93,10 @@ class Main extends Component {
     const browserChoice = this.getBrowserChoice();
     const playerChoice = choice;
     const winner = this.getWinner(browserChoice, playerChoice);
+
+    this.playAudioEffect(
+      winner === 'player' ? AudioWin : winner === 'none' ? AudioDraw : AudioLose,
+    );
 
     this.setState({
       browserChoice,
@@ -102,26 +115,62 @@ class Main extends Component {
   newGame() {
     console.log('click new game');
     this.setState({ browserChoice: '', playerChoice: '', winner: '', score: 0, round: 0 });
+    this.playAudioEffect(AudioModal);
   }
 
   saveGame() {
     console.log('click save game');
+    this.playAudioEffect(AudioModal);
     localStorage.setItem('choices-game', JSON.stringify(this.state));
   }
 
   viewHighScore() {
     console.log('click viewHighScore');
+    this.playAudioEffect(AudioModal);
   }
 
   viewSettings() {
     console.log('click viewSettings');
+    this.playAudioEffect(AudioModal);
+  }
+
+  playAudioEffect(audioSource) {
+    if (this.audioEffect) {
+      this.audioEffect.pause();
+    }
+    this.audioEffect = new Audio(audioSource);
+    this.audioEffect.play();
+  }
+
+  playTheme() {
+    if (this.state.isThemePlay) {
+      this.state.audioTheme.pause();
+      this.setState({ isThemePlay: false });
+    } else {
+      this.setState({ isThemePlay: true });
+      this.state.audioTheme.play();
+    }
+  }
+
+  stopTheme() {
+    this.setState({ isThemePlay: false, audioTheme: null });
   }
 
   render() {
-    const { browserChoice, playerChoice, winner, score, round } = this.state;
+    console.log('render', this.state);
+    const {
+      browserChoice,
+      playerChoice,
+      winner,
+      score,
+      round,
+      isThemePlay,
+      isHighScoreView,
+    } = this.state;
 
     return (
       <main>
+        <Button onClick={() => this.playTheme()}>Music: {isThemePlay ? 'Play' : 'Pause'}</Button>
         <Button onClick={() => this.newGame()}>New Game</Button>
         <Button onClick={() => this.saveGame()}>Save Game</Button>
         <Button onClick={() => this.viewHighScore()}>High-score</Button>
