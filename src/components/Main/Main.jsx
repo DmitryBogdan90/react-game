@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Mousetrap from 'mousetrap';
 
 import './Main.scss';
 import { Button } from '@material-ui/core';
@@ -24,10 +25,22 @@ class Main extends Component {
 
       this.setState({ ...save });
     }
+
+    Mousetrap.bind(['1', '2', '3'], (event) => this.handleClick(defaultChoices[event.key - 1]));
+    Mousetrap.bind(['shift+n'], () => this.newGame());
+    Mousetrap.bind(['shift+h'], () => this.viewHighScore());
+    Mousetrap.bind(['shift+s'], () => this.viewSettings());
+  }
+
+  componentWillUnmount() {
+    Mousetrap.unbind(['1', '2', '3'], (event) => this.handleClick(defaultChoices[event.key - 1]));
+    Mousetrap.unbind(['shift+n'], () => this.newGame());
+    Mousetrap.unbind(['shift+h'], () => this.viewHighScore());
+    Mousetrap.unbind(['shift+s'], () => this.viewSettings());
   }
 
   componentDidUpdate() {
-    localStorage.setItem('choices-game', JSON.stringify(this.state));
+    this.saveGame();
   }
 
   getWinner(browserChoice, playerChoice) {
@@ -91,18 +104,28 @@ class Main extends Component {
     this.setState({ browserChoice: '', playerChoice: '', winner: '', score: 0, round: 0 });
   }
 
+  saveGame() {
+    console.log('click save game');
+    localStorage.setItem('choices-game', JSON.stringify(this.state));
+  }
+
+  viewHighScore() {
+    console.log('click viewHighScore');
+  }
+
+  viewSettings() {
+    console.log('click viewSettings');
+  }
+
   render() {
     const { browserChoice, playerChoice, winner, score, round } = this.state;
 
     return (
       <main>
-        <Button
-          onClick={() => {
-            this.newGame();
-          }}
-        >
-          New Game
-        </Button>
+        <Button onClick={() => this.newGame()}>New Game</Button>
+        <Button onClick={() => this.saveGame()}>Save Game</Button>
+        <Button onClick={() => this.viewHighScore()}>High-score</Button>
+        <Button onClick={() => this.viewSettings()}>Settings</Button>
         <div>Round: {round}</div>
         <div>Score: {score}</div>
         <div>WINNER: {winner}</div>
@@ -115,6 +138,18 @@ class Main extends Component {
             </Button>
           );
         })}
+        <div className={'help'}>
+          hotkeys:{' '}
+          <ul>
+            {defaultChoices.map((choice, index) => {
+              return (
+                <li key={index}>
+                  Press {index + 1} to choose {choice}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </main>
     );
   }
