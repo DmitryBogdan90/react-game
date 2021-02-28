@@ -18,6 +18,18 @@ class Main extends Component {
     };
   }
 
+  componentDidMount() {
+    if (localStorage.getItem('choices-game')) {
+      const save = JSON.parse(localStorage.getItem('choices-game'));
+
+      this.setState({ ...save });
+    }
+  }
+
+  componentDidUpdate() {
+    localStorage.setItem('choices-game', JSON.stringify(this.state));
+  }
+
   getWinner(browserChoice, playerChoice) {
     let winner;
     const [rock, scissors, paper] = defaultChoices;
