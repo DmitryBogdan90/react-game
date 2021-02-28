@@ -1,7 +1,12 @@
 import React from 'react';
+import { CssBaseline } from '@material-ui/core';
 
 const App = () => {
-  return <div>React-game</div>;
+  return (
+    <CssBaseline>
+      <div>React-game</div>
+    </CssBaseline>
+  );
 };
 
 export default App;
