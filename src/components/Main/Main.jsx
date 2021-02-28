@@ -67,6 +67,7 @@ class Main extends Component {
   }
 
   handleClick(choice) {
+    console.log('CLICK CHOICE');
     const browserChoice = this.getBrowserChoice();
     const playerChoice = choice;
     const winner = this.getWinner(browserChoice, playerChoice);
@@ -85,11 +86,23 @@ class Main extends Component {
     });
   }
 
+  newGame() {
+    console.log('click new game');
+    this.setState({ browserChoice: '', playerChoice: '', winner: '', score: 0, round: 0 });
+  }
+
   render() {
     const { browserChoice, playerChoice, winner, score, round } = this.state;
 
     return (
       <main>
+        <Button
+          onClick={() => {
+            this.newGame();
+          }}
+        >
+          New Game
+        </Button>
         <div>Round: {round}</div>
         <div>Score: {score}</div>
         <div>WINNER: {winner}</div>
