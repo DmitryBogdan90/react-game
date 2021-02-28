@@ -3,4 +3,11 @@ main {
   width: 100%;
   text-align: center;
   flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  &:nth-child(n) {
+    font-size: 24px;
+  }
 }
