@@ -177,7 +177,6 @@ class Main extends Component {
   }
 
   render() {
-    console.log('render', this.state);
     const {
       browserChoice,
       playerChoice,
