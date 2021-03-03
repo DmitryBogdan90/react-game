@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/react-game/static/css/main.a39ea382.chunk.css",
+    "main.js": "/react-game/static/js/main.dfff2862.chunk.js",
+    "main.js.map": "/react-game/static/js/main.dfff2862.chunk.js.map",
+    "runtime-main.js": "/react-game/static/js/runtime-main.82a53604.js",
+    "runtime-main.js.map": "/react-game/static/js/runtime-main.82a53604.js.map",
+    "static/js/2.e9eb78e6.chunk.js": "/react-game/static/js/2.e9eb78e6.chunk.js",
+    "static/js/2.e9eb78e6.chunk.js.map": "/react-game/static/js/2.e9eb78e6.chunk.js.map",
+    "index.html": "/react-game/index.html",
+    "static/css/main.a39ea382.chunk.css.map": "/react-game/static/css/main.a39ea382.chunk.css.map",
+    "static/js/2.e9eb78e6.chunk.js.LICENSE.txt": "/react-game/static/js/2.e9eb78e6.chunk.js.LICENSE.txt",
+    "static/media/draw.629a4645.ogg": "/react-game/static/media/draw.629a4645.ogg",
+    "static/media/lose.5a7688cf.ogg": "/react-game/static/media/lose.5a7688cf.ogg",
+    "static/media/modal.28183fa1.ogg": "/react-game/static/media/modal.28183fa1.ogg",
+    "static/media/rs_school_js.ad178c0d.svg": "/react-game/static/media/rs_school_js.ad178c0d.svg",
+    "static/media/theme.1c62de80.ogg": "/react-game/static/media/theme.1c62de80.ogg",
+    "static/media/win.5472aebc.ogg": "/react-game/static/media/win.5472aebc.ogg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.82a53604.js",
+    "static/js/2.e9eb78e6.chunk.js",
+    "static/css/main.a39ea382.chunk.css",
+    "static/js/main.dfff2862.chunk.js"
+  ]
+}
