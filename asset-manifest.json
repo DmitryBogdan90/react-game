@@ -1,26 +1,29 @@
 {
   "files": {
-    "main.css": "/react-game/static/css/main.7d854c64.chunk.css",
-    "main.js": "/react-game/static/js/main.d9a81223.chunk.js",
-    "main.js.map": "/react-game/static/js/main.d9a81223.chunk.js.map",
+    "main.css": "/react-game/static/css/main.30c6adb0.chunk.css",
+    "main.js": "/react-game/static/js/main.e89e27d6.chunk.js",
+    "main.js.map": "/react-game/static/js/main.e89e27d6.chunk.js.map",
     "runtime-main.js": "/react-game/static/js/runtime-main.82a53604.js",
     "runtime-main.js.map": "/react-game/static/js/runtime-main.82a53604.js.map",
-    "static/js/2.f72ec043.chunk.js": "/react-game/static/js/2.f72ec043.chunk.js",
-    "static/js/2.f72ec043.chunk.js.map": "/react-game/static/js/2.f72ec043.chunk.js.map",
+    "static/js/2.337c1faf.chunk.js": "/react-game/static/js/2.337c1faf.chunk.js",
+    "static/js/2.337c1faf.chunk.js.map": "/react-game/static/js/2.337c1faf.chunk.js.map",
     "index.html": "/react-game/index.html",
-    "static/css/main.7d854c64.chunk.css.map": "/react-game/static/css/main.7d854c64.chunk.css.map",
-    "static/js/2.f72ec043.chunk.js.LICENSE.txt": "/react-game/static/js/2.f72ec043.chunk.js.LICENSE.txt",
+    "static/css/main.30c6adb0.chunk.css.map": "/react-game/static/css/main.30c6adb0.chunk.css.map",
+    "static/js/2.337c1faf.chunk.js.LICENSE.txt": "/react-game/static/js/2.337c1faf.chunk.js.LICENSE.txt",
     "static/media/draw.629a4645.ogg": "/react-game/static/media/draw.629a4645.ogg",
     "static/media/lose.5a7688cf.ogg": "/react-game/static/media/lose.5a7688cf.ogg",
     "static/media/modal.28183fa1.ogg": "/react-game/static/media/modal.28183fa1.ogg",
+    "static/media/paper.8b57a6b1.svg": "/react-game/static/media/paper.8b57a6b1.svg",
+    "static/media/rock.476e90a9.svg": "/react-game/static/media/rock.476e90a9.svg",
     "static/media/rs_school_js.ad178c0d.svg": "/react-game/static/media/rs_school_js.ad178c0d.svg",
+    "static/media/scissors.3b1a5d7e.svg": "/react-game/static/media/scissors.3b1a5d7e.svg",
     "static/media/theme.1c62de80.ogg": "/react-game/static/media/theme.1c62de80.ogg",
     "static/media/win.5472aebc.ogg": "/react-game/static/media/win.5472aebc.ogg"
   },
   "entrypoints": [
     "static/js/runtime-main.82a53604.js",
-    "static/js/2.f72ec043.chunk.js",
-    "static/css/main.7d854c64.chunk.css",
-    "static/js/main.d9a81223.chunk.js"
+    "static/js/2.337c1faf.chunk.js",
+    "static/css/main.30c6adb0.chunk.css",
+    "static/js/main.e89e27d6.chunk.js"
   ]
 }
