@@ -3,11 +3,17 @@ import { Button } from '@material-ui/core';
 
 import './Header.scss';
 
-const Header = ({ changeBackgroundOn }) => {
+const Header = ({ changeBackgroundOn, newGame, saveGame, viewHighScore, viewSettings }) => {
   return (
     <header>
-      <h2>Header</h2>
       <Button onClick={() => changeBackgroundOn()}>Background</Button>
+
+      <menu>
+        <Button onClick={() => newGame()}>New Game</Button>
+        <Button onClick={() => saveGame()}>Save Game</Button>
+        <Button onClick={() => viewHighScore()}>High-score</Button>
+        <Button onClick={() => viewSettings()}>Settings</Button>
+      </menu>
     </header>
   );
 };
