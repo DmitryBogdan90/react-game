@@ -24,7 +24,7 @@ class App extends Component {
       isSettingsOn: false,
       isHighScoreOn: false,
 
-      choices: ['Rock', 'Scissors', 'Paper'],
+      choices: ['rock', 'scissors', 'paper'],
       browserChoice: null,
       playerChoice: null,
       winner: null,
@@ -104,21 +104,21 @@ class App extends Component {
           browserChoice === scissors
             ? (winner = 'player')
             : browserChoice === rock
-            ? (winner = 'none')
+            ? (winner = null)
             : (winner = 'browser');
           break;
         case scissors:
           browserChoice === paper
             ? (winner = 'player')
             : browserChoice === scissors
-            ? (winner = 'none')
+            ? (winner = null)
             : (winner = 'browser');
           break;
         case paper:
           browserChoice === rock
             ? (winner = 'player')
             : browserChoice === paper
-            ? (winner = 'none')
+            ? (winner = null)
             : (winner = 'browser');
           break;
         default:
@@ -205,7 +205,7 @@ class App extends Component {
     return (
       <>
         <Fade in={isBackgroundOn}>
-          <Paper className={'background'} elevation={4}>
+          <Paper className="background" elevation={4}>
             <Background isBackgroundOn={isBackgroundOn} />
           </Paper>
         </Fade>
@@ -217,6 +217,7 @@ class App extends Component {
           viewHighScore={this.viewHighScore}
           viewSettings={this.viewSettings}
         />
+
         <Main
           browserChoice={browserChoice}
           playerChoice={playerChoice}
@@ -226,7 +227,12 @@ class App extends Component {
           choices={choices}
           handleClick={this.handleClick}
         />
-        <Footer />
+
+        <Fade in={!isBackgroundOn}>
+          <Paper className="footer" elevation={4}>
+            <Footer />
+          </Paper>
+        </Fade>
 
         <Modal
           aria-labelledby="transition-modal-title"

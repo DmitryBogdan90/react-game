@@ -7,20 +7,20 @@ import CourseLogo from '../../assets/rs_school_js.svg';
 
 const GithubLink = () => {
   return (
-    <Link href="https://github.com/DmitryBogdan90" color="inherit">
+    <Link className="github" href="https://github.com/DmitryBogdan90" color="inherit">
       <GitHubIcon fontSize={'large'} />
     </Link>
   );
 };
 
 const Year = () => {
-  return <div>2021</div>;
+  return <div className="year">2021</div>;
 };
 
 const LogoFooter = () => {
   return (
-    <Link href="https://rs.school/js/" color="inherit">
-      <img src={CourseLogo} alt="" height={50} />
+    <Link className="logo-js" href="https://rs.school/js/" color="inherit">
+      <img className="logo-js-image" src={CourseLogo} alt="" height={50} />
     </Link>
   );
 };

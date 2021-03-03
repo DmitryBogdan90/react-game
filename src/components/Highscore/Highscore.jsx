@@ -1,3 +1,5 @@
 import React from 'react';
 
-export default () => <div>Highscore</div>;
+const Highscore = () => <div>Highscore</div>;
+
+export default Highscore;

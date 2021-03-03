@@ -1,11 +1,21 @@
 footer {
-  border: 4px green solid;
   width: 100%;
   flex-basis: 10%;
   text-align: center;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   z-index: 20;
+  height: 100%;
+  color: #d2d2d2;
+}
+
+.github, .year, .logo-js {
+  flex-basis: 33%;
+  flex-grow: 1;
+}
+
+.logo-js-image {
+  filter: drop-shadow(0px 0px 1px #c3c3c3);
 }

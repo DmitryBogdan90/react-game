@@ -1,5 +1,4 @@
 main {
-  border: 3px yellow solid;
   width: 100%;
   text-align: center;
   flex-grow: 1;
@@ -8,4 +7,148 @@ main {
   align-items: center;
   flex-direction: column;
   z-index: 20;
+  position: relative;
+  flex-basis: 100px;
+}
+
+.game-info {
+  width: 100%;
+  flex-basis: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.game-view {
+  width: 100%;
+  flex-grow: 1;
+  //flex-basis: 65%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.choices {
+  width: 100%;
+  flex-basis: 20%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: self-start;
+}
+
+.help {
+  flex-basis: 33%;
+  font-size: 16px;
+}
+
+.round {
+  flex-basis: 33%;
+}
+
+.score {
+  flex-basis: 33%;
+}
+
+.winner {
+  flex-basis: 20%;
+}
+
+.choice-card {
+  height: 100%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 10% 0;
+}
+
+.title-choice {
+  flex-basis: 20%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-choice-container {
+  flex-basis: 60%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-choice {
+  transform: scale(1.2);
+  filter: brightness(300%);
+  z-index: 1000;
+}
+
+.choice-button {
+  transform: scale(1.5);
+  margin: 0 20px !important;
+}
+
+.settings-modal {
+  padding: 5% 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.settings-button {
+  border: 1px solid #d2d2d2 !important;
+}
+
+.settings-title {
+  width: 100%;
+  text-align: center;
+  margin: 10px 0;
+  font-size: 24px;
+}
+
+.win {
+  animation: 0.2s win linear;
+}
+
+.lose {
+  animation: 0.2s lose linear;
+}
+
+.draft {
+  animation: 0.2s draft linear;
+}
+
+@keyframes win {
+  from {
+    background-color: green;
+  }
+
+  to {
+    color: inherit;
+  }
+}
+
+@keyframes lose {
+  from {
+    background-color: red;
+  }
+
+  to {
+    color: inherit;
+  }
+}
+
+@keyframes draft {
+  from {
+    background-color: gray;
+  }
+
+  to {
+    color: inherit;
+  }
 }
