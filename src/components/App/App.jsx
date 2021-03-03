@@ -23,6 +23,7 @@ class App extends Component {
 
   render() {
     const { isBackgroundOn } = this.state;
+    console.log('render App');
 
     return (
       <>

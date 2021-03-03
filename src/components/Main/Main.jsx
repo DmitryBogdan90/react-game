@@ -14,7 +14,6 @@ import AudioTheme from '../../assets/theme.ogg';
 import './Modal.scss';
 
 const defaultChoices = ['Rock', 'Scissors', 'Paper'];
-const extendedChoices = ['Rock', 'Scissors', 'Paper', 'Lizard', 'Spock'];
 
 class Main extends Component {
   constructor(props) {
@@ -89,6 +88,8 @@ class Main extends Component {
           ? (winner = 'none')
           : (winner = 'browser');
         break;
+      default:
+        console.log('default');
     }
     return winner;
   }

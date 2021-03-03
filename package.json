@@ -18,7 +18,7 @@
     "test": "node_modules/.bin/react-scripts test",
     "eject": "node_modules/.bin/react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build --branch react-game"
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
