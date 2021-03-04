@@ -25,7 +25,7 @@ class App extends Component {
       isSettingsOn: false,
       isHighScoreOn: false,
       isLizardMode: false,
-      isScoreMode: false,
+      isScoreMode: true,
       isDead: false,
 
       choices: ['rock', 'scissors', 'paper'],
@@ -63,6 +63,7 @@ class App extends Component {
     this.resetDrawAccumulator = this.resetDrawAccumulator.bind(this);
     this.resetPlayerAccumulator = this.resetPlayerAccumulator.bind(this);
     this.absorbBrowserScore = this.absorbBrowserScore.bind(this);
+    this.hardReset = this.hardReset.bind(this);
   }
 
   componentDidMount() {
@@ -180,16 +181,21 @@ class App extends Component {
   }
 
   newGame() {
-    const { newGameCount } = this.state;
+    const { newGameCount, hardResetCount, deathCount } = this.state;
+    const browserHealth = 10 + +newGameCount + +deathCount * 10 + (+hardResetCount) ** 2 + 1;
+    console.log('newGameCount', newGameCount);
+    console.log('hardResetCount', hardResetCount);
+    console.log('browser health', browserHealth);
 
     this.setState({
+      newGameCount: +newGameCount + 1,
       isFirstRound: true,
       isBackgroundOn: false,
       isMusicOn: false,
       isSettingsOn: false,
       isHighScoreOn: false,
       isLizardMode: false,
-      isScoreMode: true,
+      isScoreMode: false,
       isDead: false,
 
       choices: ['rock', 'scissors', 'paper'],
@@ -199,12 +205,11 @@ class App extends Component {
       score: 5,
       round: 0,
       playerAccumulator: 0,
-      browserAccumulator: 10,
+      browserAccumulator: browserHealth,
       iterationAccumulator: 0,
       drawAccumulator: 0,
       restoredHealth: 0,
       absorbedDamage: 0,
-      newGameCount: +newGameCount + 1,
     });
     this.playAudioEffect(AudioModal);
   }
@@ -308,11 +313,19 @@ class App extends Component {
   }
 
   killHuman() {
-    const { deathCount } = this.state;
-    this.setState({ isDead: true, deathCount: +deathCount + 1 });
-    setTimeout(() => {
-      this.newGame();
-    }, 1000);
+    const { deathCount, newGameCount } = this.state;
+    this.setState({
+      isDead: true,
+      deathCount: +deathCount + 1,
+      newGameCount: newGameCount > 0 ? newGameCount - 1 : newGameCount,
+    });
+    setTimeout(() => {}, 1000);
+  }
+
+  hardReset() {
+    const { hardResetCount } = this.state;
+
+    this.setState({ hardResetCount: +hardResetCount + 1 });
   }
 
   render() {
@@ -336,6 +349,9 @@ class App extends Component {
       restoredHealth,
       absorbedDamage,
       isDead,
+      deathCount,
+      newGameCount,
+      hardResetCount,
     } = this.state;
 
     return (
@@ -352,6 +368,9 @@ class App extends Component {
           saveGame={this.saveGame}
           viewHighScore={this.viewHighScore}
           viewSettings={this.viewSettings}
+          deathCount={deathCount}
+          newGameCount={newGameCount}
+          hardResetCount={hardResetCount}
         />
 
         <Main
@@ -426,6 +445,7 @@ class App extends Component {
                 isScoreMode={isScoreMode}
                 changeLizardMode={this.changeLizardMode}
                 changeScoreMode={this.changeScoreMode}
+                hardReset={this.hardReset}
               />
             </div>
           </Fade>
@@ -436,7 +456,7 @@ class App extends Component {
           aria-describedby="transition-modal-description"
           className="modal"
           open={isDead}
-          onClose={() => this.setState({ isDead: false })}
+          onClose={this.newGame}
           closeAfterTransition
           BackdropComponent={Backdrop}
           BackdropProps={{

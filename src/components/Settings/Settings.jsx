@@ -8,6 +8,7 @@ const Settings = ({
   isScoreMode,
   changeLizardMode,
   changeScoreMode,
+  hardReset,
 }) => (
   <div className="settings-modal">
     <div className="settings-title">Settings</div>
@@ -19,6 +20,9 @@ const Settings = ({
     </Button>
     <Button className="settings-button" onClick={() => changeScoreMode()}>
       Mode: {isScoreMode ? 'Confrontation' : 'Accumulation'}
+    </Button>
+    <Button className="settings-button" onClick={() => hardReset()}>
+      Hardreset
     </Button>
   </div>
 );
