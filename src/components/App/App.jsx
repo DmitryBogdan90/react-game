@@ -25,7 +25,7 @@ class App extends Component {
       isSettingsOn: false,
       isHighScoreOn: false,
       isLizardMode: false,
-      isScoreMode: true,
+      isScoreMode: false,
       isDead: false,
 
       choices: ['rock', 'scissors', 'paper'],
