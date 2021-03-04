@@ -31,13 +31,14 @@ class App extends Component {
       browserChoice: null,
       playerChoice: null,
       winner: null,
-      score: 0,
+      score: 100,
       round: 0,
       playerAccumulator: 0,
       browserAccumulator: 0,
       iterationAccumulator: 0,
       drawAccumulator: 0,
       restoredHealth: 0,
+      absorbedDamage: 0,
     };
 
     this.changeBackgroundOn = this.changeBackgroundOn.bind(this);
@@ -55,6 +56,7 @@ class App extends Component {
     this.changeScoreMode = this.changeScoreMode.bind(this);
     this.resetDrawAccumulator = this.resetDrawAccumulator.bind(this);
     this.resetPlayerAccumulator = this.resetPlayerAccumulator.bind(this);
+    this.absorbBrowserScore = this.absorbBrowserScore.bind(this);
   }
 
   componentDidMount() {
@@ -123,6 +125,7 @@ class App extends Component {
         playerAccumulator: winner === 'player' ? +playerAccumulator + 1 : playerAccumulator,
         drawAccumulator: winner === null ? +drawAccumulator + 1 : drawAccumulator,
         iterationAccumulator: +iterationAccumulator + 1,
+        round: +round + 1,
       });
     }
 
@@ -172,12 +175,14 @@ class App extends Component {
       browserChoice: null,
       playerChoice: null,
       winner: null,
-      score: 0,
+      score: 100,
       round: 0,
       playerAccumulator: 0,
       browserAccumulator: 0,
       iterationAccumulator: 0,
       drawAccumulator: 0,
+      restoredHealth: 0,
+      absorbedDamage: 0,
     });
     this.playAudioEffect(AudioModal);
   }
@@ -246,19 +251,31 @@ class App extends Component {
   }
 
   resetDrawAccumulator() {
-    const { score, drawAccumulator } = this.state;
+    const { score, drawAccumulator, restoredHealth } = this.state;
     this.setState({
       score: +score + +drawAccumulator,
+      restoredHealth: +restoredHealth + +drawAccumulator,
       drawAccumulator: 0,
     });
     this.playAudioEffect(AudioModal);
   }
 
   resetPlayerAccumulator() {
-    const { score, playerAccumulator } = this.state;
+    const { score, playerAccumulator, restoredHealth } = this.state;
     this.setState({
       score: +score + +playerAccumulator,
+      restoredHealth: +restoredHealth + +playerAccumulator,
       playerAccumulator: 0,
+    });
+    this.playAudioEffect(AudioModal);
+  }
+
+  absorbBrowserScore() {
+    const { score, browserAccumulator, absorbedDamage } = this.state;
+    this.setState({
+      score: +score - +browserAccumulator,
+      browserAccumulator: 0,
+      absorbedDamage: +absorbedDamage + +browserAccumulator,
     });
     this.playAudioEffect(AudioModal);
   }
@@ -282,6 +299,7 @@ class App extends Component {
       iterationAccumulator,
       drawAccumulator,
       restoredHealth,
+      absorbedDamage,
     } = this.state;
 
     return (
@@ -316,6 +334,8 @@ class App extends Component {
           resetDrawAccumulator={this.resetDrawAccumulator}
           resetPlayerAccumulator={this.resetPlayerAccumulator}
           restoredHealth={restoredHealth}
+          absorbedDamage={absorbedDamage}
+          absorbBrowserScore={this.absorbBrowserScore}
         />
 
         <Fade in={!isBackgroundOn}>

@@ -22,6 +22,8 @@ const Main = ({
   resetPlayerAccumulator,
   isFirstRound,
   restoredHealth,
+  absorbedDamage,
+  absorbBrowserScore,
 }) => {
   const getImage = (choice, title, points = 1000) => {
     return (
@@ -61,33 +63,37 @@ const Main = ({
           }`}
           id={new Date()}
         >
-          {!isScoreMode ? (
-            <>
-              <span>Chances</span>
-              <span>{round}</span>
-            </>
-          ) : (
-            <>
-              <span>Restored</span>
-              <span>{restoredHealth}</span>
-            </>
-          )}
+          <div>
+            <div>Restored</div>
+            <div>{restoredHealth}</div>
+          </div>
+          <div>
+            <div>Chances</div>
+            <div>{round}</div>
+          </div>
+          <div>
+            <div>Absorbed</div>
+            <div>{absorbedDamage}</div>
+          </div>
         </div>
         <div className="winner">
-          {isFirstRound || (winner ? (winner === 'player' ? 'WIN!!!!' : 'LOSE') : 'DRAW')}
+          {!isFirstRound && (winner ? (winner === 'player' ? 'WIN!!!!' : 'LOSE') : 'DRAW')}
         </div>
       </div>
 
       <div className="mode-title">{isScoreMode ? 'Accumulation' : 'Confrontation'}</div>
 
       <div className="game-view">
-        {getImage(playerChoice, 'player', playerAccumulator)}
+        {getImage(playerChoice, 'Human', playerAccumulator)}
 
         <div className="score">
-          <div className="score-title">Score</div>
+          <div className="score-title">Health</div>
           <div className="score-value">{score}</div>
           {!isScoreMode || (
             <div className="reset-draw-container">
+              <Button className="reset-draw-button" onClick={() => absorbBrowserScore()}>
+                absorb
+              </Button>
               <Button className="reset-draw-button" onClick={() => resetPlayerAccumulator()}>
                 Reset acc {playerAccumulator}
               </Button>
