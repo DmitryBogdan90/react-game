@@ -45,6 +45,8 @@ class App extends Component {
       killsCount: 0,
       newGameCount: 0,
       hardResetCount: 0,
+
+      highScore: [],
     };
 
     this.changeBackgroundOn = this.changeBackgroundOn.bind(this);
@@ -231,6 +233,15 @@ class App extends Component {
   }
 
   saveGame() {
+    const { score, restoredHealth, round, absorbedDamage, highScore } = this.state;
+    const sortHighScore = highScore.splice(-20);
+
+    this.setState({
+      highScore: [
+        ...sortHighScore,
+        { id: Date.now(), score, restoredHealth, round, absorbedDamage },
+      ].sort((a, b) => (a.score < b.score ? 1 : -1)),
+    });
     this.playAudioEffect(AudioModal);
     localStorage.setItem('choices-game', JSON.stringify(this.state));
   }
@@ -371,6 +382,7 @@ class App extends Component {
       deathCount,
       newGameCount,
       hardResetCount,
+      highScore,
     } = this.state;
 
     return (
@@ -437,8 +449,8 @@ class App extends Component {
           }}
         >
           <Fade in={isHighScoreOn}>
-            <div className="paper">
-              <Highscore />
+            <div className="paper high-score-table">
+              <Highscore highScore={highScore} />
             </div>
           </Fade>
         </Modal>
