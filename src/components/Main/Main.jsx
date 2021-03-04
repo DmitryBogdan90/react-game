@@ -17,10 +17,11 @@ const Main = ({
   isScoreMode,
   playerAccumulator,
   browserAccumulator,
-  iterationAccumulator,
   drawAccumulator,
   resetDrawAccumulator,
   resetPlayerAccumulator,
+  isFirstRound,
+  restoredHealth,
 }) => {
   const getImage = (choice, title, points = 1000) => {
     return (
@@ -60,9 +61,21 @@ const Main = ({
           }`}
           id={new Date()}
         >
-          Round: {!isScoreMode ? round : iterationAccumulator}
+          {!isScoreMode ? (
+            <>
+              <span>Chances</span>
+              <span>{round}</span>
+            </>
+          ) : (
+            <>
+              <span>Restored</span>
+              <span>{restoredHealth}</span>
+            </>
+          )}
         </div>
-        <div className="winner">{winner ? (winner === 'player' ? 'WIN!!!!' : 'LOSE') : 'draw'}</div>
+        <div className="winner">
+          {isFirstRound || (winner ? (winner === 'player' ? 'WIN!!!!' : 'LOSE') : 'DRAW')}
+        </div>
       </div>
 
       <div className="mode-title">{isScoreMode ? 'Accumulation' : 'Confrontation'}</div>

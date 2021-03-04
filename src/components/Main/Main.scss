@@ -49,6 +49,13 @@ main {
   flex-basis: 33%;
 }
 
+.round {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 0 10%;
+}
+
 .winner {
   text-transform: capitalize;
 }

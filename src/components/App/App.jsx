@@ -19,6 +19,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      isFirstRound: true,
       isBackgroundOn: false,
       isMusicOn: false,
       isSettingsOn: false,
@@ -36,6 +37,7 @@ class App extends Component {
       browserAccumulator: 0,
       iterationAccumulator: 0,
       drawAccumulator: 0,
+      restoredHealth: 0,
     };
 
     this.changeBackgroundOn = this.changeBackgroundOn.bind(this);
@@ -103,6 +105,7 @@ class App extends Component {
 
     if (!isScoreMode) {
       this.setState({
+        isFirstRound: false,
         browserChoice,
         playerChoice,
         winner,
@@ -112,6 +115,7 @@ class App extends Component {
       });
     } else {
       this.setState({
+        isFirstRound: false,
         browserChoice,
         playerChoice,
         winner,
@@ -155,7 +159,26 @@ class App extends Component {
   }
 
   newGame() {
-    this.setState({ browserChoice: null, playerChoice: null, winner: null, score: 0, round: 0 });
+    this.setState({
+      isFirstRound: true,
+      isBackgroundOn: false,
+      isMusicOn: false,
+      isSettingsOn: false,
+      isHighScoreOn: false,
+      isLizardMode: false,
+      isScoreMode: false,
+
+      choices: ['rock', 'scissors', 'paper'],
+      browserChoice: null,
+      playerChoice: null,
+      winner: null,
+      score: 0,
+      round: 0,
+      playerAccumulator: 0,
+      browserAccumulator: 0,
+      iterationAccumulator: 0,
+      drawAccumulator: 0,
+    });
     this.playAudioEffect(AudioModal);
   }
 
@@ -258,6 +281,7 @@ class App extends Component {
       browserAccumulator,
       iterationAccumulator,
       drawAccumulator,
+      restoredHealth,
     } = this.state;
 
     return (
@@ -291,6 +315,7 @@ class App extends Component {
           drawAccumulator={drawAccumulator}
           resetDrawAccumulator={this.resetDrawAccumulator}
           resetPlayerAccumulator={this.resetPlayerAccumulator}
+          restoredHealth={restoredHealth}
         />
 
         <Fade in={!isBackgroundOn}>
