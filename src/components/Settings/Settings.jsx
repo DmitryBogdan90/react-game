@@ -14,11 +14,11 @@ const Settings = ({
     <Button className="settings-button" onClick={() => playTheme()}>
       Music: {!isMusicOn ? 'Play' : 'Pause'}
     </Button>
-    <Button className="settings-button" onClick={() => changeLizardMode()}>
-      Mode: {isLizardMode ? 'Lizard' : 'Standart'}
+    <Button disabled className="settings-button" onClick={() => changeLizardMode()}>
+      Rules: {isLizardMode ? 'Lizard' : 'Standart'}
     </Button>
     <Button className="settings-button" onClick={() => changeScoreMode()}>
-      Score: {isScoreMode ? 'Confrontation' : 'Accumulation'}
+      Mode: {isScoreMode ? 'Confrontation' : 'Accumulation'}
     </Button>
   </div>
 );

@@ -30,8 +30,12 @@ class App extends Component {
       browserChoice: null,
       playerChoice: null,
       winner: null,
-      score: null,
-      round: null,
+      score: 0,
+      round: 0,
+      playerAccumulator: 0,
+      browserAccumulator: 0,
+      iterationAccumulator: 0,
+      drawAccumulator: 0,
     };
 
     this.changeBackgroundOn = this.changeBackgroundOn.bind(this);
@@ -47,6 +51,8 @@ class App extends Component {
     this.stopTheme = this.stopTheme.bind(this);
     this.changeLizardMode = this.changeLizardMode.bind(this);
     this.changeScoreMode = this.changeScoreMode.bind(this);
+    this.resetDrawAccumulator = this.resetDrawAccumulator.bind(this);
+    this.resetPlayerAccumulator = this.resetPlayerAccumulator.bind(this);
   }
 
   componentDidMount() {
@@ -78,27 +84,43 @@ class App extends Component {
     localStorage.setItem('choices-game', JSON.stringify(this.state));
   }
 
-  handleClick(choice, choices = this.state.choices) {
+  handleClick(choice) {
+    const {
+      score,
+      round,
+      choices,
+      isScoreMode,
+      playerAccumulator,
+      browserAccumulator,
+      iterationAccumulator,
+      drawAccumulator,
+    } = this.state;
     const browserChoice = choices[Math.floor(Math.random() * 3)];
     const playerChoice = choice;
     const winner = getWinner(browserChoice, playerChoice, choices);
 
-    this.playAudioEffect(
-      winner === 'player' ? AudioWin : winner === 'none' ? AudioDraw : AudioLose,
-    );
+    this.playAudioEffect(winner === 'player' ? AudioWin : winner === null ? AudioDraw : AudioLose);
 
-    this.setState({
-      browserChoice,
-      playerChoice,
-      winner,
-      score:
-        winner === 'player'
-          ? +this.state.score + 1
-          : winner === 'none'
-          ? this.state.score
-          : +this.state.score - 1,
-      round: +this.state.round + 1,
-    });
+    if (!isScoreMode) {
+      this.setState({
+        browserChoice,
+        playerChoice,
+        winner,
+        score: winner === 'player' ? +score + 1 : winner === null ? score : +score - 1,
+        round: +round + 1,
+        drawAccumulator: winner === null ? drawAccumulator + 1 : drawAccumulator,
+      });
+    } else {
+      this.setState({
+        browserChoice,
+        playerChoice,
+        winner,
+        browserAccumulator: winner === 'browser' ? +browserAccumulator + 1 : browserAccumulator,
+        playerAccumulator: winner === 'player' ? +playerAccumulator + 1 : playerAccumulator,
+        drawAccumulator: winner === null ? +drawAccumulator + 1 : drawAccumulator,
+        iterationAccumulator: +iterationAccumulator + 1,
+      });
+    }
 
     function getWinner(browserChoice, playerChoice, choices) {
       let winner;
@@ -200,6 +222,24 @@ class App extends Component {
     this.setState({ isScoreMode: !this.state.isScoreMode });
   }
 
+  resetDrawAccumulator() {
+    const { score, drawAccumulator } = this.state;
+    this.setState({
+      score: +score + +drawAccumulator,
+      drawAccumulator: 0,
+    });
+    this.playAudioEffect(AudioModal);
+  }
+
+  resetPlayerAccumulator() {
+    const { score, playerAccumulator } = this.state;
+    this.setState({
+      score: +score + +playerAccumulator,
+      playerAccumulator: 0,
+    });
+    this.playAudioEffect(AudioModal);
+  }
+
   render() {
     const {
       isBackgroundOn,
@@ -214,6 +254,10 @@ class App extends Component {
       isMusicOn,
       isLizardMode,
       isScoreMode,
+      playerAccumulator,
+      browserAccumulator,
+      iterationAccumulator,
+      drawAccumulator,
     } = this.state;
 
     return (
@@ -240,6 +284,13 @@ class App extends Component {
           round={round}
           choices={choices}
           handleClick={this.handleClick}
+          isScoreMode={isScoreMode}
+          playerAccumulator={playerAccumulator}
+          browserAccumulator={browserAccumulator}
+          iterationAccumulator={iterationAccumulator}
+          drawAccumulator={drawAccumulator}
+          resetDrawAccumulator={this.resetDrawAccumulator}
+          resetPlayerAccumulator={this.resetPlayerAccumulator}
         />
 
         <Fade in={!isBackgroundOn}>
@@ -247,6 +298,12 @@ class App extends Component {
             <Footer />
           </Paper>
         </Fade>
+
+        <div className="score-mode">
+          <div className="big-score-mode-title">
+            {isScoreMode ? 'Accumulation' : 'Confrontation'}
+          </div>
+        </div>
 
         <Modal
           aria-labelledby="transition-modal-title"
