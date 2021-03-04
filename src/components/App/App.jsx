@@ -113,7 +113,7 @@ class App extends Component {
     Mousetrap.unbind(['shift+n'], () => this.newGame());
     Mousetrap.unbind(['shift+h'], () => this.viewHighScore());
     Mousetrap.unbind(['shift+s'], () => this.viewSettings());
-    Mousetrap.bind(['shift+m'], () => this.changeScoreMode());
+    Mousetrap.unbind(['shift+m'], () => this.changeScoreMode());
   }
 
   componentDidUpdate() {
@@ -247,6 +247,10 @@ class App extends Component {
   }
 
   viewHighScore() {
+    if (this.state.isHighScoreOn) {
+      this.setState({ isHighScoreOn: !this.state.isHighScoreOn });
+      return;
+    }
     if (this.state.isSettingsOn) {
       this.setState({ isSettingsOn: !this.state.isSettingsOn });
     }

@@ -56,6 +56,8 @@ const Main = ({
               </div>
             );
           })}
+          <div>Press shift+m to change mode</div>
+          <div>Press shift+h to open/close highscore</div>
         </div>
         <div
           className={`round ${
