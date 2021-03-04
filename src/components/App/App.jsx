@@ -23,6 +23,8 @@ class App extends Component {
       isMusicOn: false,
       isSettingsOn: false,
       isHighScoreOn: false,
+      isLizardMode: false,
+      isScoreMode: false,
 
       choices: ['rock', 'scissors', 'paper'],
       browserChoice: null,
@@ -43,6 +45,8 @@ class App extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.playTheme = this.playTheme.bind(this);
     this.stopTheme = this.stopTheme.bind(this);
+    this.changeLizardMode = this.changeLizardMode.bind(this);
+    this.changeScoreMode = this.changeScoreMode.bind(this);
   }
 
   componentDidMount() {
@@ -188,6 +192,14 @@ class App extends Component {
     this.setState({ isBackgroundOn: !this.state.isBackgroundOn });
   }
 
+  changeLizardMode() {
+    this.setState({ isLizardMode: !this.state.isLizardMode });
+  }
+
+  changeScoreMode() {
+    this.setState({ isScoreMode: !this.state.isScoreMode });
+  }
+
   render() {
     const {
       isBackgroundOn,
@@ -200,6 +212,8 @@ class App extends Component {
       isHighScoreOn,
       isSettingsOn,
       isMusicOn,
+      isLizardMode,
+      isScoreMode,
     } = this.state;
 
     return (
@@ -267,7 +281,14 @@ class App extends Component {
         >
           <Fade in={isSettingsOn}>
             <div className="paper">
-              <Settings isMusicOn={isMusicOn} playTheme={this.playTheme} />
+              <Settings
+                isMusicOn={isMusicOn}
+                playTheme={this.playTheme}
+                isLizardMode={isLizardMode}
+                isScoreMode={isScoreMode}
+                changeLizardMode={this.changeLizardMode}
+                changeScoreMode={this.changeScoreMode}
+              />
             </div>
           </Fade>
         </Modal>
