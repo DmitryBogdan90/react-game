@@ -15,11 +15,10 @@ const Header = ({
 }) => {
   return (
     <header>
-      <Button className="header-button" onClick={() => changeBackgroundOn()}>
-        Background
-      </Button>
-
-      <menu>
+      <menu className="buttons-header">
+        <Button className="header-button" onClick={() => changeBackgroundOn()}>
+          Background
+        </Button>
         <Button className="header-button" onClick={() => newGame()}>
           New Game
         </Button>

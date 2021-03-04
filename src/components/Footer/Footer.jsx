@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from '@material-ui/core';
 import GitHubIcon from '@material-ui/icons/GitHub';
-
 import './Footer.scss';
 import CourseLogo from '../../assets/rs_school_js.svg';
 

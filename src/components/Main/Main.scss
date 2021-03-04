@@ -45,7 +45,7 @@ main {
   font-size: 16px;
 }
 
-.round,.help, .score, .winner  {
+.round,.help, .winner  {
   flex-basis: 33%;
 }
 
@@ -274,4 +274,23 @@ main {
   align-items: center;
   background-color: rgba(40,40,40, 0.2) !important;
   margin-bottom: 5%;
+}
+
+.image-view {
+  position: relative !important;
+}
+
+.burger-button {
+  position: absolute !important;
+  top: 0 !important;
+  align-self: flex-start;
+  width: 20px;
+}
+
+.burger-layout {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }

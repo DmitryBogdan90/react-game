@@ -4,7 +4,7 @@ import './Highscore.scss';
 
 const Highscore = ({ highScore }) => {
   return (
-    <div className="high-score-table">
+    <div>
       <div className="highscore-row">
         <div className="highscore-place highscore-item">place</div>
         <div className="highscore-score highscore-item">score</div>

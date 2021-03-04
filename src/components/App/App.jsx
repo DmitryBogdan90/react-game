@@ -122,8 +122,6 @@ class App extends Component {
     if (this.state.score <= 0 && this.state.isFirstRound) {
       this.killHuman();
     }
-
-    console.log('state', this.state.browserAccumulator);
   }
 
   handleClick(choice) {
@@ -406,6 +404,8 @@ class App extends Component {
           deathCount={deathCount}
           newGameCount={newGameCount}
           hardResetCount={hardResetCount}
+          choices={choices}
+          handleClick={this.handleClick}
         />
 
         <Main
@@ -426,6 +426,11 @@ class App extends Component {
           restoredHealth={restoredHealth}
           absorbedDamage={absorbedDamage}
           absorbBrowserScore={this.absorbBrowserScore}
+          changeBackgroundOn={this.changeBackgroundOn}
+          newGame={this.newGame}
+          saveGame={this.saveGame}
+          viewHighScore={this.viewHighScore}
+          viewSettings={this.viewSettings}
         />
 
         <Fade in={!isBackgroundOn}>
