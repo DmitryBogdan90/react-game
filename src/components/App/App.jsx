@@ -26,19 +26,25 @@ class App extends Component {
       isHighScoreOn: false,
       isLizardMode: false,
       isScoreMode: false,
+      isDead: false,
 
       choices: ['rock', 'scissors', 'paper'],
       browserChoice: null,
       playerChoice: null,
       winner: null,
-      score: 100,
+
+      score: 5,
       round: 0,
       playerAccumulator: 0,
-      browserAccumulator: 0,
+      browserAccumulator: 10,
       iterationAccumulator: 0,
       drawAccumulator: 0,
       restoredHealth: 0,
       absorbedDamage: 0,
+      deathCount: 0,
+      killsCount: 0,
+      newGameCount: 0,
+      hardResetCount: 0,
     };
 
     this.changeBackgroundOn = this.changeBackgroundOn.bind(this);
@@ -46,7 +52,7 @@ class App extends Component {
     this.closeSettings = this.closeSettings.bind(this);
     this.viewHighScore = this.viewHighScore.bind(this);
     this.viewSettings = this.viewSettings.bind(this);
-
+    this.playAudioEffect = this.playAudioEffect.bind(this);
     this.newGame = this.newGame.bind(this);
     this.saveGame = this.saveGame.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -71,6 +77,14 @@ class App extends Component {
       this.setState({ ...save, isMusicOn: false });
     }
 
+    if (this.state.score <= 0 && this.state.isFirstRound) {
+      console.log('human must die');
+      this.killHuman('human die');
+    } else if (this.state.browserAccumulator <= 0 && this.state.isFirstRound) {
+      console.log('browser cant die');
+      this.killHuman('human die');
+    }
+
     this.stopTheme();
     this.setState({ audioModal: new Audio(AudioModal), audioTheme: new Audio(AudioTheme) });
   }
@@ -86,6 +100,10 @@ class App extends Component {
 
   componentDidUpdate() {
     localStorage.setItem('choices-game', JSON.stringify(this.state));
+
+    if (this.state.score <= 0 && this.state.isFirstRound) {
+      this.killHuman();
+    }
   }
 
   handleClick(choice) {
@@ -162,6 +180,8 @@ class App extends Component {
   }
 
   newGame() {
+    const { newGameCount } = this.state;
+
     this.setState({
       isFirstRound: true,
       isBackgroundOn: false,
@@ -169,20 +189,22 @@ class App extends Component {
       isSettingsOn: false,
       isHighScoreOn: false,
       isLizardMode: false,
-      isScoreMode: false,
+      isScoreMode: true,
+      isDead: false,
 
       choices: ['rock', 'scissors', 'paper'],
       browserChoice: null,
       playerChoice: null,
       winner: null,
-      score: 100,
+      score: 5,
       round: 0,
       playerAccumulator: 0,
-      browserAccumulator: 0,
+      browserAccumulator: 10,
       iterationAccumulator: 0,
       drawAccumulator: 0,
       restoredHealth: 0,
       absorbedDamage: 0,
+      newGameCount: +newGameCount + 1,
     });
     this.playAudioEffect(AudioModal);
   }
@@ -272,12 +294,25 @@ class App extends Component {
 
   absorbBrowserScore() {
     const { score, browserAccumulator, absorbedDamage } = this.state;
-    this.setState({
-      score: +score - +browserAccumulator,
-      browserAccumulator: 0,
-      absorbedDamage: +absorbedDamage + +browserAccumulator,
-    });
-    this.playAudioEffect(AudioModal);
+
+    if (+score - +browserAccumulator > 0) {
+      this.setState({
+        score: +score - +browserAccumulator,
+        browserAccumulator: 0,
+        absorbedDamage: +absorbedDamage + +browserAccumulator,
+      });
+      this.playAudioEffect(AudioModal);
+    } else {
+      this.killHuman();
+    }
+  }
+
+  killHuman() {
+    const { deathCount } = this.state;
+    this.setState({ isDead: true, deathCount: +deathCount + 1 });
+    setTimeout(() => {
+      this.newGame();
+    }, 1000);
   }
 
   render() {
@@ -300,6 +335,7 @@ class App extends Component {
       drawAccumulator,
       restoredHealth,
       absorbedDamage,
+      isDead,
     } = this.state;
 
     return (
@@ -392,6 +428,23 @@ class App extends Component {
                 changeScoreMode={this.changeScoreMode}
               />
             </div>
+          </Fade>
+        </Modal>
+
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className="modal"
+          open={isDead}
+          onClose={() => this.setState({ isDead: false })}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={isDead}>
+            <div className="end-game">YOU DIE</div>
           </Fade>
         </Modal>
       </>

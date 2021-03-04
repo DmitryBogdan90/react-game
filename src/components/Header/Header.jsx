@@ -6,13 +6,23 @@ import './Header.scss';
 const Header = ({ changeBackgroundOn, newGame, saveGame, viewHighScore, viewSettings }) => {
   return (
     <header>
-      <Button onClick={() => changeBackgroundOn()}>Background</Button>
+      <Button className="header-button" onClick={() => changeBackgroundOn()}>
+        Background
+      </Button>
 
       <menu>
-        <Button onClick={() => newGame()}>New Game</Button>
-        <Button onClick={() => saveGame()}>Save Game</Button>
-        <Button onClick={() => viewHighScore()}>High-score</Button>
-        <Button onClick={() => viewSettings()}>Settings</Button>
+        <Button className="header-button" onClick={() => newGame()}>
+          New Game
+        </Button>
+        <Button className="header-button" onClick={() => saveGame()}>
+          Save Game
+        </Button>
+        <Button className="header-button" onClick={() => viewHighScore()}>
+          High-score
+        </Button>
+        <Button className="header-button" onClick={() => viewSettings()}>
+          Settings
+        </Button>
       </menu>
     </header>
   );
