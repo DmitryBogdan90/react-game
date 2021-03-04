@@ -71,11 +71,16 @@ class App extends Component {
     Mousetrap.bind(['shift+n'], () => this.newGame());
     Mousetrap.bind(['shift+h'], () => this.viewHighScore());
     Mousetrap.bind(['shift+s'], () => this.viewSettings());
+    Mousetrap.bind(['shift+m'], () => this.changeScoreMode());
 
     if (localStorage.getItem('choices-game')) {
       const save = JSON.parse(localStorage.getItem('choices-game'));
-
-      this.setState({ ...save, isMusicOn: false });
+      const { newGameCount, hardResetCount, deathCount } = save;
+      const hardResetFine = hardResetCount * 20;
+      const deathFine = +deathCount * 10;
+      const startsFine = +newGameCount + 1;
+      const browserHealth = 10 + startsFine + deathFine + hardResetFine;
+      this.setState({ ...save, browserHealth: browserHealth, isMusicOn: false });
     }
 
     if (this.state.score <= 0 && this.state.isFirstRound) {
@@ -87,7 +92,16 @@ class App extends Component {
     }
 
     this.stopTheme();
-    this.setState({ audioModal: new Audio(AudioModal), audioTheme: new Audio(AudioTheme) });
+
+    this.setState({
+      audioModal: new Audio(AudioModal),
+      audioTheme: new Audio(AudioTheme),
+      browserHealth:
+        10 +
+        +this.state.newGameCount +
+        +this.state.deathCount * 10 +
+        +this.state.hardResetCount * 20,
+    });
   }
 
   componentWillUnmount() {
@@ -97,6 +111,7 @@ class App extends Component {
     Mousetrap.unbind(['shift+n'], () => this.newGame());
     Mousetrap.unbind(['shift+h'], () => this.viewHighScore());
     Mousetrap.unbind(['shift+s'], () => this.viewSettings());
+    Mousetrap.bind(['shift+m'], () => this.changeScoreMode());
   }
 
   componentDidUpdate() {
@@ -105,6 +120,8 @@ class App extends Component {
     if (this.state.score <= 0 && this.state.isFirstRound) {
       this.killHuman();
     }
+
+    console.log('state', this.state.browserAccumulator);
   }
 
   handleClick(choice) {
@@ -182,10 +199,10 @@ class App extends Component {
 
   newGame() {
     const { newGameCount, hardResetCount, deathCount } = this.state;
-    const browserHealth = 10 + +newGameCount + +deathCount * 10 + (+hardResetCount) ** 2 + 1;
-    console.log('newGameCount', newGameCount);
-    console.log('hardResetCount', hardResetCount);
-    console.log('browser health', browserHealth);
+    const hardResetFine = (hardResetCount + 1) * 20;
+    const deathFine = +deathCount * 10;
+    const startsFine = +newGameCount + 1;
+    const browserHealth = 10 + startsFine + deathFine + hardResetFine;
 
     this.setState({
       newGameCount: +newGameCount + 1,
@@ -195,7 +212,6 @@ class App extends Component {
       isSettingsOn: false,
       isHighScoreOn: false,
       isLizardMode: false,
-      isScoreMode: false,
       isDead: false,
 
       choices: ['rock', 'scissors', 'paper'],
@@ -245,7 +261,7 @@ class App extends Component {
 
   playAudioEffect(audioSource) {
     if (this.audioEffect) {
-      this.audioEffect.pause();
+      this.audioEffect = null;
     }
     this.audioEffect = new Audio(audioSource);
     this.audioEffect.play();
@@ -313,19 +329,22 @@ class App extends Component {
   }
 
   killHuman() {
-    const { deathCount, newGameCount } = this.state;
+    const { deathCount } = this.state;
     this.setState({
       isDead: true,
       deathCount: +deathCount + 1,
-      newGameCount: newGameCount > 0 ? newGameCount - 1 : newGameCount,
     });
-    setTimeout(() => {}, 1000);
   }
 
   hardReset() {
-    const { hardResetCount } = this.state;
+    const { hardResetCount, newGameCount } = this.state;
 
-    this.setState({ hardResetCount: +hardResetCount + 1 });
+    this.setState({
+      hardResetCount: +hardResetCount + 1,
+      isScoreMode: false,
+      newGameCount: newGameCount > 0 ? newGameCount - 1 : newGameCount,
+    });
+    this.newGame();
   }
 
   render() {
